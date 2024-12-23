@@ -1,0 +1,37 @@
+name: EDB
+suffix: ~  # add suffix to saved images
+model: denoising
+distortion: sr
+gpu_ids: [0]
+
+sde:
+  T: 10
+  eps: 0.005
+  
+degradation:
+  noise_type: G 
+  scale: 4
+  # scale: 8
+
+datasets:
+  test1:
+    name: Val_Dataset
+    mode: LQGT
+    dataroot_GT: /home/proj/codes/datasets/DIV2K/DIV2K_valid_HR
+    dataroot_LQ: /home/proj/codes/datasets/DIV2K/DIV2K_valid_LR_bicubic/X4
+    # dataroot_GT: /home/EDB/icme_code/datasets/celebahq
+    # dataroot_LQ: /home/EDB/icme_code/datasets/celebahq/X4
+    
+
+#### network structures
+network_G:
+  which_model_G: ConditionalUNet
+  setting:
+    in_nc: 3
+    out_nc: 3
+    nf: 64
+    depth: 4
+
+#### path
+path:
+  pretrain_model_G: /home/proj/codes/log_sisr/best_G.pth
